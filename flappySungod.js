@@ -12,8 +12,10 @@ window.requestAnimFrame = (function() {
 /*** Global Variables ***/
 var gameWidth = 360;
 var gameHeight = 640;
-var distBetweenPipes = 100;
-var distBetweenPipeCols = 180;
+var distBetweenPipes = 180;
+var distBetweenPipeCols = 280;
+var groundHeight = 67;
+var gameScore = 0;
 
 var sprite = document.querySelector('#spritesheet');
 
@@ -30,12 +32,12 @@ var Ground = function(){
   var texture = ctx.createPattern(img, 'repeat-x');
   ctx.fillStyle = texture;
   
-  this.yBound = gameHeight - img.height;
+  this.yBound = gameHeight - groundHeight;
   
   this.draw = function(){
     ctx.save();
-    ctx.translate(0, gameHeight - img.height);
-    ctx.fillRect(0, 0, gameWidth, img.height);
+    ctx.translate(0, gameHeight - groundHeight);
+    ctx.fillRect(0, 0, gameWidth, groundHeight);
     ctx.restore();
   };
 }
@@ -43,11 +45,11 @@ var Sungod = function(){
 	this.formNumber = 0;
 	this.time = 0;
 
-	this.width = 88;
-	this.height = 58;
+	this.width = 75;
+	this.height = 50;	
 
 	//height per flap
-	this.flapHeight = -6;
+	this.flapHeight = -5;
 	this.gravity = 4;
 	this.peakHeight = -60;
 	this.flightStatus = 0;
@@ -100,26 +102,66 @@ var Sungod = function(){
 }
 
 var Pipes = function(){
-  this.positions = [];
+  var pipePositions = [];
   this.pipeSprites = [];
   this.pipeSprites['bottom'] ={'x': 0, 'y': 255, 'width': 78, 'height': 370};
   this.pipeSprites['top'] = {'x': 93, 'y': 255, 'width': 78, 'height': 370};
   
-  /*for (var i = 0; i < 5; ++i){
-    var pipeColumn = {'topX': 0, 'topY': , 
-      'bottomX': , 'bottomY': };
-    this.positions.append(pipeColumn);
+  var pipeSprites = this.pipeSprites;
   
-  }*/
-  this.draw = function(){
-    ctx.drawImage(sprite, this.pipeSprites['top'].x, this.pipeSprites['top'].y + 40,
-			this.pipeSprites['top'].width, this.pipeSprites['top'].height, 130, 0, 
-			this.pipeSprites['top'].width, this.pipeSprites['top'].y + 40);
-    ctx.drawImage(sprite, this.pipeSprites['bottom'].x, this.pipeSprites['bottom'].y,
-			this.pipeSprites['bottom'].width, this.pipeSprites['bottom'].height - 40, 130, 430, 
-			this.pipeSprites['bottom'].width, this.pipeSprites['bottom'].height - 40);
+  var createPipe = function(){
+    var topPipeHeight = Math.random() * (pipeSprites['top'].height - 50) + 50;
+    var bottomPipeHeight = gameHeight - topPipeHeight - distBetweenPipes - groundHeight;
+  
+    var pipeColumn = {'topSpriteYOffset': pipeSprites['top'].height + pipeSprites['top'].y  - topPipeHeight, 
+      'topSpriteHeight': topPipeHeight, 'xPosition': pipePositions[pipePositions.length - 1].xPosition + distBetweenPipeCols, 'topCanvasYOffset': topPipeHeight,
+      'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight };
+    pipePositions.push(pipeColumn);
   }
+  
+  this.init = function(){
+    pipePositions = [];
+    for (var i = 0; i < 5; ++i){
+      var topPipeHeight = Math.random() * (pipeSprites['top'].height - 50) + 50;
+      var bottomPipeHeight = gameHeight - topPipeHeight - distBetweenPipes - groundHeight;
 
+      var pipeColumn = {'topSpriteYOffset': pipeSprites['top'].height + pipeSprites['top'].y  - topPipeHeight, 
+        'topSpriteHeight': topPipeHeight, 'xPosition': gameWidth + distBetweenPipeCols * i, 'topCanvasYOffset': topPipeHeight,
+        'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight };
+      pipePositions.push(pipeColumn);
+    }
+  }
+  this.draw = function(){
+    pipePositions.forEach(function(element, index, array){
+      ctx.drawImage(sprite, pipeSprites['top'].x, element.topSpriteYOffset,
+        pipeSprites['top'].width, element.topSpriteHeight, element.xPosition, 0, 
+        pipeSprites['top'].width, element.topCanvasYOffset);
+      ctx.drawImage(sprite, pipeSprites['bottom'].x, pipeSprites['bottom'].y,
+        pipeSprites['bottom'].width, element.bottomSpriteHeight, element.xPosition, element.yPosition, 
+        pipeSprites['bottom'].width, element.bottomCanvasYOffset);
+    });
+    this.move();
+  }
+  
+  this.move = function(){
+    pipePositions.forEach(function(element, index, array){
+      element.xPosition -= 2;
+      if ( element.xPosition + pipeSprites['top'].width < 0 ){
+        array.splice(index,1);
+        createPipe();
+      }
+    });
+  };
+  
+  this.reset = function(){
+    this.init();
+  }
+  
+  this.getPipePositions = function(){
+    return pipePositions;
+  }
+  
+  this.init();
 }
 
 /*** END CLASSES ****/
@@ -142,11 +184,21 @@ function init(){
     if (sungod.yPosition + sungod.height > ground.yBound){
       reset();
     }
+    /*if ( sungod.xPosition > pipes.getPipePositions()[0].xPosition &&
+      sungod.yPosition > pipes.getPipePositions()[0].topCanvasYOffset &&
+      sungod.yPosition < pipes.getPipePositions()[0].bottomCanvasYOffset ){
+        gameScore += 1;
+        console.log(gameScore);
+    }
+    else{
+      console.log('wassup');
+      reset();
+    }*/
   }
 	function update(){
 		sungod.fly();
 		sungod.draw();
-      pipes.draw();
+    pipes.draw();
     ground.draw();
     
     checkCollisions();
@@ -164,6 +216,7 @@ function init(){
 
 function reset(){
   sungod.reset();
+  pipes.reset();
   isGameOver = true;
   canvas.addEventListener('click', init, false);
 }
@@ -171,7 +224,6 @@ function reset(){
 function startUpdate(){
 	ctx.clearRect(0,0, gameWidth, gameHeight);
 	sungod.draw();
-  pipes.draw();
   ground.draw();
 }
 
