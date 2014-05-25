@@ -12,6 +12,8 @@ window.requestAnimFrame = (function() {
 /*** Global Variables ***/
 var gameWidth = 360;
 var gameHeight = 640;
+var distBetweenPipes = 100;
+var distBetweenPipeCols = 180;
 
 var sprite = document.querySelector('#spritesheet');
 
@@ -97,13 +99,36 @@ var Sungod = function(){
 	};
 }
 
+var Pipes = function(){
+  this.positions = [];
+  this.pipeSprites = [];
+  this.pipeSprites['bottom'] ={'x': 0, 'y': 255, 'width': 78, 'height': 370};
+  this.pipeSprites['top'] = {'x': 93, 'y': 255, 'width': 78, 'height': 370};
+  
+  /*for (var i = 0; i < 5; ++i){
+    var pipeColumn = {'topX': 0, 'topY': , 
+      'bottomX': , 'bottomY': };
+    this.positions.append(pipeColumn);
+  
+  }*/
+  this.draw = function(){
+    ctx.drawImage(sprite, this.pipeSprites['top'].x, this.pipeSprites['top'].y + 40,
+			this.pipeSprites['top'].width, this.pipeSprites['top'].height, 130, 0, 
+			this.pipeSprites['top'].width, this.pipeSprites['top'].y + 40);
+    ctx.drawImage(sprite, this.pipeSprites['bottom'].x, this.pipeSprites['bottom'].y,
+			this.pipeSprites['bottom'].width, this.pipeSprites['bottom'].height - 40, 130, 430, 
+			this.pipeSprites['bottom'].width, this.pipeSprites['bottom'].height - 40);
+  }
+
+}
+
 /*** END CLASSES ****/
 
 
 //initializations
 var sungod = new Sungod();
+var pipes = new Pipes();
 var ground = new Ground();
-
 /*** Game Functions ***/
 
 function init(){
@@ -121,6 +146,7 @@ function init(){
 	function update(){
 		sungod.fly();
 		sungod.draw();
+      pipes.draw();
     ground.draw();
     
     checkCollisions();
@@ -145,6 +171,7 @@ function reset(){
 function startUpdate(){
 	ctx.clearRect(0,0, gameWidth, gameHeight);
 	sungod.draw();
+  pipes.draw();
   ground.draw();
 }
 
