@@ -12,6 +12,6 @@ canvas{
 	height: 640px;
 	background: url(http://i.imgur.com/Y0BMP.png) top left;
 }
-#spritesheet{
+img{
 	display: none;
 }
