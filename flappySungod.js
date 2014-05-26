@@ -16,11 +16,14 @@ var distBetweenPipes = 180;
 var distBetweenPipeCols = 280;
 var groundHeight = 67;
 var gameScore = 0;
+var countedScore = false;
 
 var sprite = document.querySelector('#spritesheet');
 
 var canvas = document.querySelector('#canvas');
 var ctx = canvas.getContext('2d');
+
+var animationFrame;
 
 canvas.width = gameWidth;
 canvas.height = gameHeight;
@@ -115,7 +118,8 @@ var Pipes = function(){
   
     var pipeColumn = {'topSpriteYOffset': pipeSprites['top'].height + pipeSprites['top'].y  - topPipeHeight, 
       'topSpriteHeight': topPipeHeight, 'xPosition': pipePositions[pipePositions.length - 1].xPosition + distBetweenPipeCols, 'topCanvasYOffset': topPipeHeight,
-      'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight };
+      'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight, 'valid': false };
+    
     pipePositions.push(pipeColumn);
   }
   
@@ -127,7 +131,8 @@ var Pipes = function(){
 
       var pipeColumn = {'topSpriteYOffset': pipeSprites['top'].height + pipeSprites['top'].y  - topPipeHeight, 
         'topSpriteHeight': topPipeHeight, 'xPosition': gameWidth + distBetweenPipeCols * i, 'topCanvasYOffset': topPipeHeight,
-        'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight };
+        'bottomSpriteHeight': bottomPipeHeight, 'yPosition': topPipeHeight + distBetweenPipes, 'bottomCanvasYOffset': bottomPipeHeight, 'valid': false };
+      
       pipePositions.push(pipeColumn);
     }
   }
@@ -140,7 +145,6 @@ var Pipes = function(){
         pipeSprites['bottom'].width, element.bottomSpriteHeight, element.xPosition, element.yPosition, 
         pipeSprites['bottom'].width, element.bottomCanvasYOffset);
     });
-    this.move();
   }
   
   this.move = function(){
@@ -159,6 +163,13 @@ var Pipes = function(){
   
   this.getPipePositions = function(){
     return pipePositions;
+  }
+  
+  this.getCurrentPipe = function(){
+    if ( pipePositions[0].valid == false )
+      return pipePositions[0];
+    else
+      return pipePositions[1];
   }
   
   this.init();
@@ -180,36 +191,53 @@ function init(){
   function calcSungodPosition(){
 		sungod.flightStatus = 0;
 	}
+  
   function checkCollisions(){
     if (sungod.yPosition + sungod.height > ground.yBound){
       reset();
     }
-    /*if ( sungod.xPosition > pipes.getPipePositions()[0].xPosition &&
-      sungod.yPosition > pipes.getPipePositions()[0].topCanvasYOffset &&
-      sungod.yPosition < pipes.getPipePositions()[0].bottomCanvasYOffset ){
-        gameScore += 1;
-        console.log(gameScore);
+    
+    var hasHitPipe = false;
+    if ( sungod.xPosition + sungod.width >= pipes.getCurrentPipe().xPosition ){      
+      if ( pipes.getCurrentPipe().valid == false && 
+        (sungod.yPosition < pipes.getCurrentPipe().topCanvasYOffset ||
+        sungod.yPosition + sungod.height > pipes.getCurrentPipe().yPosition) ){
+          console.log('hit');
+          hasHitPipe = true;
+          reset();
+      }
+      if (sungod.xPosition > pipes.getCurrentPipe().xPosition + 78){
+          pipes.getCurrentPipe()['valid'] = true;
+          countedScore = false;
+      }
     }
-    else{
-      console.log('wassup');
-      reset();
-    }*/
+    if (hasHitPipe == false && countedScore == false ){
+      gameScore += 1;
+      console.log(gameScore);
+      countedScore = true;
+    }
   }
+  
 	function update(){
 		sungod.fly();
 		sungod.draw();
     pipes.draw();
-    ground.draw();
     
     checkCollisions();
+    pipes.move();
+    
+    ground.draw();
+    
+
 	}
 	gameLoop = function(){
-		update();
-    if ( isGameOver == true ){
-      isGameOver = false;
-      return;
+    if ( isGameOver == false ){
+      update();
+      animationFrame = requestAnimFrame(gameLoop);
     }
-		requestAnimFrame(gameLoop);
+    else{
+      isGameOver = false;
+    }
 	}
 	gameLoop();
 }
@@ -217,6 +245,7 @@ function init(){
 function reset(){
   sungod.reset();
   pipes.reset();
+  gameScore = 0;
   isGameOver = true;
   canvas.addEventListener('click', init, false);
 }
