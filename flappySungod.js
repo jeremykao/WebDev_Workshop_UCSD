@@ -219,6 +219,7 @@ function init(){
   }
   
 	function update(){
+    ctx.clearRect(0,0, gameWidth, gameHeight);
 		sungod.fly();
 		sungod.draw();
     pipes.draw();
@@ -243,6 +244,7 @@ function init(){
 }
 
 function reset(){
+	ctx.clearRect(0,0, gameWidth, gameHeight);
   sungod.reset();
   pipes.reset();
   gameScore = 0;
