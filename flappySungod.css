@@ -23,6 +23,13 @@ img{
   position: absolute;
   top: 80px;
   left: 175px;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #score{
   font-size: 40px;

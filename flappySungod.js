@@ -16,6 +16,7 @@ var distBetweenPipes = 180;
 var distBetweenPipeCols = 280;
 var groundHeight = 67;
 var countedScore = false;
+var gameLoopStarted = false;
 
 var sprite = document.querySelector('#spritesheet');
 var score = document.querySelector('#score');
@@ -199,6 +200,8 @@ var ground = new Ground();
 /*** Game Functions ***/
 
 function init(){
+  gameLoopStarted = true;
+  
 	canvas.removeEventListener('click', init);
 	canvas.addEventListener('click', calcSungodPosition, false);
 	
@@ -263,6 +266,8 @@ function reset(){
   pipes.reset();
   game.resetScore();
   isGameOver = true;
+  gameLoopStarted = false;
+  startLoop();
   canvas.addEventListener('click', init, false);
 }
 
@@ -273,8 +278,10 @@ function startUpdate(){
 }
 
 var startLoop = function(){
-	startUpdate();
-	requestAnimFrame(startLoop);
+  if (gameLoopStarted == false){
+    startUpdate();
+    requestAnimFrame(startLoop);
+  }
 };
 
 startLoop();
