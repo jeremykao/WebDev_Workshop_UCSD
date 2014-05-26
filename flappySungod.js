@@ -15,11 +15,10 @@ var gameHeight = 640;
 var distBetweenPipes = 180;
 var distBetweenPipeCols = 280;
 var groundHeight = 67;
-var gameScore = 0;
 var countedScore = false;
 
 var sprite = document.querySelector('#spritesheet');
-
+var score = document.querySelector('#score');
 var canvas = document.querySelector('#canvas');
 var ctx = canvas.getContext('2d');
 
@@ -30,6 +29,20 @@ canvas.height = gameHeight;
 var isGameOver = false;
 
 /*** Classes ***/
+var Game = function(){
+  this.score = 0;
+  
+  this.incrementScore = function(){
+    this.score++;
+    score.innerHTML = this.score;
+  };
+
+  this.resetScore = function(){
+    this.score = 0;
+    score.innerHTML = this.score;
+  }
+};
+
 var Ground = function(){
   var img = document.querySelector('#ground_texture');
   var texture = ctx.createPattern(img, 'repeat-x');
@@ -179,6 +192,7 @@ var Pipes = function(){
 
 
 //initializations
+var game = new Game();
 var sungod = new Sungod();
 var pipes = new Pipes();
 var ground = new Ground();
@@ -204,6 +218,7 @@ function init(){
         sungod.yPosition + sungod.height > pipes.getCurrentPipe().yPosition) ){
           console.log('hit');
           hasHitPipe = true;
+          countedScore = false;
           reset();
       }
       if (sungod.xPosition > pipes.getCurrentPipe().xPosition + 78){
@@ -211,9 +226,8 @@ function init(){
           countedScore = false;
       }
     }
-    if (hasHitPipe == false && countedScore == false ){
-      gameScore += 1;
-      console.log(gameScore);
+    if (hasHitPipe == false && countedScore == false && sungod.xPosition + sungod.width > pipes.getCurrentPipe().xPosition + 39 ){
+      game.incrementScore();
       countedScore = true;
     }
   }
@@ -247,7 +261,7 @@ function reset(){
 	ctx.clearRect(0,0, gameWidth, gameHeight);
   sungod.reset();
   pipes.reset();
-  gameScore = 0;
+  game.resetScore();
   isGameOver = true;
   canvas.addEventListener('click', init, false);
 }
