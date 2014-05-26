@@ -17,6 +17,7 @@ var distBetweenPipeCols = 280;
 var groundHeight = 67;
 var countedScore = false;
 var gameLoopStarted = false;
+var vxGame = 2;
 
 var sprite = document.querySelector('#spritesheet');
 var score = document.querySelector('#score');
@@ -46,16 +47,18 @@ var Game = function(){
 
 var Ground = function(){
   var img = document.querySelector('#ground_texture');
-  var texture = ctx.createPattern(img, 'repeat-x');
-  ctx.fillStyle = texture;
+  var vxBg = vxGame;
   
   this.yBound = gameHeight - groundHeight;
   
   this.draw = function(){
-    ctx.save();
-    ctx.translate(0, gameHeight - groundHeight);
-    ctx.fillRect(0, 0, gameWidth, groundHeight);
-    ctx.restore();
+    ctx.drawImage(img, vxBg, gameHeight-groundHeight);
+    ctx.drawImage(img, img.width-Math.abs(vxBg), gameHeight-groundHeight);
+    
+    if (Math.abs(vxBg) > img.width) {
+      vxBg = 0;
+    }
+    vxBg -= 2;
   };
 }
 var Sungod = function(){
@@ -163,7 +166,7 @@ var Pipes = function(){
   
   this.move = function(){
     pipePositions.forEach(function(element, index, array){
-      element.xPosition -= 2;
+      element.xPosition -= vxGame;
       if ( element.xPosition + pipeSprites['top'].width < 0 ){
         array.splice(index,1);
         createPipe();
