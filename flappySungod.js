@@ -21,8 +21,12 @@ var vxGame = 2;
 
 var sprite = document.querySelector('#spritesheet');
 var score = document.querySelector('#score');
+var highScoreText = document.querySelector('#highScore');
 var canvas = document.querySelector('#canvas');
 var ctx = canvas.getContext('2d');
+
+var highScore = localStorage.getItem('highScore') | 0;
+highScoreText.innerHTML = highScore;
 
 var animationFrame;
 
@@ -40,8 +44,14 @@ var Game = function(){
   };
 
   this.resetScore = function(){
+    if (this.score > highScore){
+      highScore = this.score;
+      localStorage.setItem('highScore', highScore);
+      highScoreText.innerHTML = highScore;
+    }
     this.score = 0;
     score.innerHTML = this.score;
+    
   }
 };
 
@@ -124,8 +134,8 @@ var Sungod = function(){
 var Pipes = function(){
   var pipePositions = [];
   this.pipeSprites = [];
-  this.pipeSprites['bottom'] ={'x': 0, 'y': 255, 'width': 78, 'height': 370};
-  this.pipeSprites['top'] = {'x': 93, 'y': 255, 'width': 78, 'height': 370};
+  this.pipeSprites['bottom'] ={'x': 0, 'y': 181, 'width': 78, 'height': 372};
+  this.pipeSprites['top'] = {'x': 93, 'y': 181, 'width': 78, 'height': 372};
   
   var pipeSprites = this.pipeSprites;
   
