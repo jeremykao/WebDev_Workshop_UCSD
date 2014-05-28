@@ -17,7 +17,7 @@ var distBetweenPipeCols = 280;
 var groundHeight = 67;
 var countedScore = false;
 var gameLoopStarted = false;
-var vxGame = 2;
+var vxGame = 3;
 
 var sprite = document.querySelector('#spritesheet');
 var score = document.querySelector('#score');
@@ -80,7 +80,7 @@ var Sungod = function(){
 
 	//height per flap
 	this.flapHeight = -5;
-	this.gravity = 4;
+	this.gravity = 5;
 	this.peakHeight = -60;
 	this.flightStatus = 0;
 
@@ -128,7 +128,7 @@ var Sungod = function(){
 		else{
 			this.yPosition += this.gravity;
 		}
-	};
+  };
 }
 
 var Pipes = function(){
@@ -220,7 +220,7 @@ function init(){
 	
   function calcSungodPosition(){
 		sungod.flightStatus = 0;
-	}
+  }
   
   function checkCollisions(){
     if (sungod.yPosition + sungod.height > ground.yBound){
