@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Web Development Workshop by IEEE and Google at UCSD</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Web Development Workshop</h1>
+					<h3>for the new/non-programmer</h3>
+					<p>
+						<small>Presented by <a href="http://ieee.ucsd.edu" target="_blank">IEEE</a> and Google at UCSD</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Brief Overview the Workshop</h2>
+          <ol>
+            <li>Introductions</li>
+            <li>How the Web Works...</li>
+            <li>Anatomy of a Web Application</li>
+            <li>HTML & CSS
+              <ul>
+                <li>Creating a landing page!</li>
+              </ul>
+            </li>
+            <li>Javascript
+              <ul>
+                <li>Basic Programming Constructs</li>
+                <li>Creating Flappy SunGod!</li>
+              </ul>
+            </li>
+            <li>Short Google Presentation</li>
+          </ol>
+				</section>
+        
+        <section>
+          <h2>I'm Jeremy!</h2>
+          <p class="fragment">3rd yr. Computer Engineering</p>
+          <p class="fragment">Web Programming for ~5 years</p>
+          <p class="fragment">Interests: STEM education, Food, Dance, Changing the world</p>
+        </section>
+        
+        <section>
+          <section>
+            <h2>How the Web Works...</h2>
+          </section>
+          <section>
+            <h2>What happens when you type in http://google.com into the URL bar?</h2>
+            <p><img src="http://www.diaryofaninja.com/asset/blogimages/a3da0d03-b76e-45bd-81c0-b098151b0670_image_3ce7ccf3-80f1-4607-bcf1-2fe07a0e9cc2.png" /></p>
+          </section>
+          <section>
+            <h2>Once you connect to a server, what happens?</h2>
+            <ul>
+              <li class="fragment">Server runs some code to get what you want.
+                <ul>
+                  <li class="fragment">This is called server-side code, collectively called the Backend.</li>
+                  <li class="fragment">Deals with databases, manipulating data, etc.</li>
+                  <li class="fragment">Programming languages include: C++, Java, Node.js, Ruby, PHP, Python, etc.</li>
+                </ul>
+              </li>
+              <li class="fragment">Server sends files to your computer.</li>
+              <li class="fragment">Your computer downloads the files and displays them.
+                <ul>
+                  <li class="fragment">These files are client-side code, collectively called the Frontend.</li>
+                  <li class="fragment">Code for UI, user interaction with web application, etc. All of it is run by your browser!</li>
+                  <li class="fragment">Programming languages include: HTML, CSS, JavaScript</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>We'll be focusing on the Frontend!</h2>
+            <h4>But skills from both frontend and backend overlap</h4>
+          </section>
+          <section>
+            <h2>HTML</h2>
+          </section>
+        </section>
+
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
+}
+					</code></pre>
+					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
+
+				<section>
+					<h1>THE END</h1>
+					<h3>BY Hakim El Hattab / hakim.se</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

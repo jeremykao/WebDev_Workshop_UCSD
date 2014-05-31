@@ -2,12 +2,68 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 
 body{
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    color: #111;
+    margin: 0;
+    padding: 0;
+}
+
+footer, header{
+  background-color: #f7b5b5;
+  color: #000;
+}
+
+header{
+  padding: 5px;
+  margin: 0;
+}
+header h1{
+    margin: 20px 20px 20px 80px;
+    display: inline-block;
+}
+header p{
+  display: inline;
+}
+
+a{
+  text-decoration: none;
+  color: #487099;
+}
+
+#bodyContainer{
+  width: 900px;
+  min-height: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #111;
+}
+#leftColumn{
+  float: left;
+  width: 500px;
+}
+
+.paragraphHeader{
+  text-decoration: underline;
+  margin-bottom: 3px;
+}
+
+#leftColumn p{
+  margin-top: 3px;
+}
+#profile_pic{
+  width: 314px;
+  height: 177px;
+}
+
+/******* Game Styles  ******/
+#gameContainer{
+  float: right;
 	width: 360px;
 	height:640px;
-	margin: 50px;
+  margin: 8px;
 	margin-right: auto;
 	margin-left: auto;
-  font-family: 'Roboto', sans-serif;
   position: relative;
 }
 canvas{
@@ -15,7 +71,7 @@ canvas{
 	height: 640px;
 	background: url(background.jpg) top left;
 }
-img{
+#spritesheet, #ground_texture{
 	display: none;
 }
 
@@ -47,4 +103,18 @@ img{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/****** End Game Styles ******/
+
+footer{
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  clear: both;
 }
