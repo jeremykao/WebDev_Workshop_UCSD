@@ -1,2 +1,109 @@
 /** flappySungod.css **/
 @import url(http://fonts.googleapis.com/css?family=Roboto);
+
+body{
+    /**** TODO: Change font to Roboto ****/
+    height: 100%;
+    color: #111;
+    margin: 0;
+    padding: 0;
+}
+
+/**** TODO: Need to change colors of font and background of
+*****       footer and header to #000 and #f7b5b5, respectively
+****/
+
+/**** TODO: Make margins 0px and padding 5px for header ****/
+
+header h1{
+    margin: 20px 20px 20px 80px;
+}
+
+/*** TODO: Make the paragraph in the header to be on the
+**** same line as the h1 
+****/
+
+/**** TODO: Make all links have no underline and change 
+*****       the color of the text to #487099
+*****/
+
+#bodyContainer{
+  width: 900px;
+  min-height: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #111;
+}
+
+/*** TODO: Make the 2 column layout ****/
+
+/*** TODO: Make all section headers (description, opinions, about me)
+****       have underlines and be close to the paragraph underneath it
+****/
+
+#leftColumn p{
+  margin-top: 3px;
+}
+/**** TODO: make the 2nd image of dug smaller... to
+*****       314px X 177px large.
+*****/
+
+/******* Game Styles  ******/
+#gameContainer{
+	width: 360px;
+	height:640px;
+  margin: 8px;
+	margin-right: auto;
+	margin-left: auto;
+  position: relative;
+}
+canvas{
+	width: 360px;
+	height: 640px;
+	background: url(background.jpg) top left;
+}
+#spritesheet, #ground_texture{
+	display: none;
+}
+
+#scoreboard{
+  position: absolute;
+  top: 80px;
+  left: 175px;
+}
+#score{
+  font-size: 40px;
+  text-shadow: 4px 4px 6px #333;
+  color: #FFF;
+}
+#highScoreBoard{
+  position: absolute;
+  bottom: 13px;
+  right: 15px;
+  font-size: 20px;
+  color: #555;
+}
+#highScoreBoard p{
+  margin: 0;
+  padding: 0;
+}
+.textOverlay{
+   -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/****** End Game Styles ******/
+
+footer{
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  height: auto;
+  clear: both;
+}
