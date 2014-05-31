@@ -1,22 +1,70 @@
-Flappy SunGod!
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flappy SunGod!</title>
+		<link rel="stylesheet" href="flappySungod.css" />
+	</head>
+	<body>
+    
+    <header>
+      <h1>Flappy SunGod Game</h1>
+      <p>
+        by Jeremy Kao at the 
+        <a href="https://www.facebook.com/events/527568750680627/" target="_blank">Web Development Workshop</a>
+        Presented by <a href="http://ieee.ucsd.edu" target="_blank">IEEE</a> and Google at UCSD 
+        <!-- TODO:  Add a link to Google at UCSD: homepage => https://plus.google.com/b/102152202756176683677/102152202756176683677/posts -->
+      </p>
+    </header>
+    
+    <div id="bodyContainer">
+      <div id="leftColumn">
+        <h2>This a game that I made with HTML, CSS, and JavaScript.</h2>
+        <p>This is the landing page for the project.</p>
+      
+        <h3 class="paragraphHeader">Description</h3>
+        <p>Hi there. This game is about a bird. The bird looks like Kevin. The bird flies. It is in a city. The city has pipes. The bird tries
+          to fly through pipes. I am going to tell Kevin that he has a twin. I wonder what his name is.
+        </p>
+        
+        <h3>Opinions</h3>
+        <p>Hi there. The game I made is really cool. I really like it. I hope you like it. If you like it, I will like you.
+          I hope you will like me. SQUIRRREELLLLLL!!!!!! 
+        </p>
+        <img src="http://www.blogcdn.com/blog.moviefone.com/media/2009/09/dug_200x225.jpg" alt="dug" />
+        
+        <!-- TODO: Create the About Me Section and have the pic below -->
+        About Me:
+        Hi there. I'm Dug. Here's my picture. SQUIRRREELLLLLL!!!!!!
+        http://cdnvideo.dolimg.com/cdn_assets/cc501270eacacda9203331439bf4a42379811eba.jpg"
+      </div>
+      
+      <div id="gameContainer">
+        <canvas id="canvas">
+          Your browser doesn't support Canvas!
+        </canvas>
 
-Flappy SunGod Game
-by Jeremy Kao at the Web Development Workshop Presented by IEEE and Google at UCSD
+        <div id="scoreboard" class="textOverlay">
+          <p id="score">0</p>
+        </div>
+        
+        <div id="highScoreBoard" class="textOverlay">
+          <p>High Score: 
+            <span id="highScore">0</span>
+          </p>
+        </div>
+        
+        <!-- SpriteSheet and other images -->
+        <img id="spritesheet" src="flappySpritesheet.png"/>
+        <img id="ground_texture" src="ground.jpg"/>
+      </div>
+    </div>
 
-This a game that I made with HTML, CSS, and JavaScript.
-This is the landing page for the project.
-
-Description
-Hi there. This game is about a bird. The bird looks like Kevin. The bird flies. It is in a city. The city has pipes. The bird tries
-to fly through pipes. I am going to tell Kevin that he has a twin. I wonder what his name is.
-
-Opinions
-Hi there. The game I made is really cool. I really like it. I hope you like it. If you like it, I will like you.
-I hope you will like me. SQUIRRREELLLLLL!!!!!! 
-
-About Me:
-Hi there. I'm Dug. Here's my picture. SQUIRRREELLLLLL!!!!!!
-
-http://cdnvideo.dolimg.com/cdn_assets/cc501270eacacda9203331439bf4a42379811eba.jpg
-
-Copyright Swag123 2014.
+    <footer>
+      <p>Copyright Swag123 2014.</p>
+    </footer>
+    
+		<!-- JavaScript -->
+		<script type="text/javascript" src="flappySungod.js"></script>
+		<!-- End JavaScript -->
+	</body>
+</html>
