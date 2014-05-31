@@ -19,16 +19,20 @@ var countedScore = false;
 var gameLoopStarted = false;
 var vxGame = 3;
 
+//get images for the bird and pipes
 var sprite = document.querySelector('#spritesheet');
+//area to display current game score
 var score = document.querySelector('#score');
+//area to dispaly high score
 var highScoreText = document.querySelector('#highScore');
+//where game is drawn/played
 var canvas = document.querySelector('#canvas');
 var ctx = canvas.getContext('2d');
 
+//set high score to either 0 or something in localStorage
 var highScore = localStorage.getItem('highScore') | 0;
+//display the updated high score
 highScoreText.innerHTML = highScore;
-
-var animationFrame;
 
 canvas.width = gameWidth;
 canvas.height = gameHeight;
@@ -39,25 +43,27 @@ var Game = function(){
   this.score = 0;
   
   this.incrementScore = function(){
-    this.score++;
-    score.innerHTML = this.score;
+    this.score++; //add 1 to the score
+    score.innerHTML = this.score; //update the score
   };
 
   this.resetScore = function(){
+    //this if block checks if the score of the game is greater than the
+    //high score stored in localStorage
     if (this.score > highScore){
-      highScore = this.score;
-      localStorage.setItem('highScore', highScore);
-      highScoreText.innerHTML = highScore;
+      highScore = this.score; //set new high score to current score
+      localStorage.setItem('highScore', highScore); //set new high score in localStorage
+      highScoreText.innerHTML = highScore; //display the updated high score
     }
-    this.score = 0;
-    score.innerHTML = this.score;
+    this.score = 0; //reset the score back to zero
+    score.innerHTML = this.score; //display the updated score
     
   }
 };
 
 var Ground = function(){
   var img = document.querySelector('#ground_texture');
-  var vxBg = vxGame;
+  var vxBg = 0;
   
   this.yBound = gameHeight - groundHeight;
   
@@ -68,13 +74,15 @@ var Ground = function(){
     if (Math.abs(vxBg) > img.width) {
       vxBg = 0;
     }
-    vxBg -= 2;
+    vxBg -= vxGame;
   };
-}
-var Sungod = function(){
-	this.formNumber = 0;
-	this.time = 0;
+};
 
+var Sungod = function(){
+	this.formNumber = 0; //which form of the bird is currently displayed
+	this.tick = 0; //just a little counter that will be used to switch between bird forms
+
+  //width and height of the bird in the game.
 	this.width = 75;
 	this.height = 50;	
 
@@ -84,18 +92,20 @@ var Sungod = function(){
 	this.peakHeight = -60;
 	this.flightStatus = 0;
 
-  //different forms on spritesheet
+  //different forms on spritesheet; the x and y mark the top left corner;
+  //the width and height mark the offsets from the x,y that enclose the bird
   this.forms = [
     {'x': 2, 'y': 1, 'width': 88, 'height': 58},
     {'x': 1, 'y': 60, 'width': 88, 'height': 58},
     {'x': 4, 'y': 119, 'width': 88, 'height': 58}
   ];
 
+  //Initially set (x,y) to (1/3 the width of the game, 1/2 the height of the game)
 	this.xPosition = gameWidth / 3 - this.width / 2;
 	this.yPosition = gameHeight / 2 - this.height / 2;
 
 	this.draw = function(){
-  	//position on spritesheet
+  	//positions on spritesheet
     this.xOffset = this.forms[this.formNumber].x;
     this.yOffset = this.forms[this.formNumber].y;
     this.offsetWidth = this.forms[this.formNumber].width;
@@ -105,14 +115,14 @@ var Sungod = function(){
 			this.offsetWidth, this.offsetHeight, this.xPosition, this.yPosition, 
 			this.width, this.height);
 		
-		this.time++;
-		if (this.time % 15 == 0){
+		this.tick++;
+		if (this.tick % 15 == 0){
 			this.formNumber++;
 			if (this.formNumber > 2)
 				this.formNumber = 0;
 
-			if (this.time > 45)
-				this.time = 0;
+			if (this.tick > 45)
+				this.tick = 0;
 		}
 	};
   this.reset = function(){
@@ -152,7 +162,7 @@ var Pipes = function(){
   
   this.init = function(){
     pipePositions = [];
-    for (var i = 0; i < 5; ++i){
+    for (var i = 0; i < 3; ++i){
       var topPipeHeight = Math.random() * (pipeSprites['top'].height - 50) + 50;
       var bottomPipeHeight = gameHeight - topPipeHeight - distBetweenPipes - groundHeight;
 
@@ -200,7 +210,7 @@ var Pipes = function(){
   }
   
   this.init();
-}
+};
 
 /*** END CLASSES ****/
 
@@ -221,7 +231,9 @@ function init(){
   function calcSungodPosition(){
 		sungod.flightStatus = 0;
   }
-  
+  this.reset = function(){
+    canvas.removeEventListener('click', calcSungodPosition);
+  };
   function checkCollisions(){
     if (sungod.yPosition + sungod.height > ground.yBound){
       reset();
@@ -264,7 +276,7 @@ function init(){
 	gameLoop = function(){
     if ( isGameOver == false ){
       update();
-      animationFrame = requestAnimFrame(gameLoop);
+      requestAnimFrame(gameLoop);
     }
     else{
       isGameOver = false;
