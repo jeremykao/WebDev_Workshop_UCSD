@@ -114,7 +114,5 @@ footer{
   width: 100%;
   overflow: hidden;
   height: auto;
-  position: absolute;
-  bottom: 0;
   clear: both;
 }
